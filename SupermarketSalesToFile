@@ -1,0 +1,44 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+//epektasi klasis  SupermarketSales, dimiourgia ipo klasis
+
+public class SupermarketSalesToFile extends SupermarketSales {
+    public static String supermarketName;
+    private String town;
+    public SupermarketSalesToFile(double[][] array) {
+        super(array);
+    } //kataskevastis me disdiastato pinaka
+    public static void setSupermarketName(String supermarketName) {
+        SupermarketSalesToFile.supermarketName = supermarketName;
+    }
+    public void setTown(String town) {
+        this.town = town;
+    }
+    public String getTown() {
+        return town;
+    }
+    @Override
+    public void getStoreSales() {
+        BufferedWriter b = null;
+        try {
+            double totalSales = 0;// sinolo poliseon
+            File f = new File(town + ".txt");
+            b = new BufferedWriter(new FileWriter(f));//dimiourgia arxiou
+            b.write(supermarketName + "\n");//egrafi onomatos tis alisidas Supermarket
+            b.write("Poli:" + town + "\n");//Egrafi polis opou iparxi katastima
+            for (int i = 0; i < sales.length; i++) {
+                for (int j = 0; j < sales[i].length; j++) {
+                    totalSales = totalSales + sales[i][j];
+                }
+                b.write("Katastima no:" + i + "\n");
+                b.write("Total income is " + totalSales + "\n");
+                totalSales = 0;
+            }
+            b.close();
+            System.out.println("To arxeio " + f.getName() + " dimiourgithike me epitixia");
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+}

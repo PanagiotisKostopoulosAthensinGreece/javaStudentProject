@@ -1,0 +1,69 @@
+import java.util.Arrays;
+class SupermarketSales {
+    public double sales [][];// diplos pinakas me onoma sales
+    public int stores;
+    public int ware;
+    public SupermarketSales(double[][] array) {//kataskeyastis me orisma pinaka 2 diastaseon
+        boolean data = false;//mia metavliti tipou boolean gia na elekso an ta dedomena einai ortha
+        int i = 0;// metritis grammon
+        int j = 0;//metritis gia stiles
+        //elexos stixion pinaka
+        for (i = 0; i < array.length; i++) {
+            for (j = 0; j < array[i].length; j++) { // an oi times ton pedion einai ises or megaliteres tou 0
+                if (array[i][j] >= 0) {// an oi times ton pedion einai ises or megaliteres tou 0
+                    data = true;
+                } else { //alios
+                    System.out.println("ERROR:The values are invalid!!!");//minima lathous
+                    data = false;
+                    System.exit(0);
+                }
+            }
+        }
+        if (data) {//An  i timi tou data einai true
+            this.sales = array;//anathesi tou pinaka sto sales
+            //και θα αποθηκεύει στην katastimata το πλήθος των γραμμών
+            this.stores = i;//apouikevo sto store to plithos ton gramon
+            this.ware = j;//apothikevo sto ware to plithos ton stilon
+        }
+
+    }
+    public void getStoreSales() {//keni dimosia methodos getKatastimataSales
+        double totalSales = 0;//Sinopo poliseon katasimatos
+        for (int i = 0; i < sales.length; i++) {
+            for (int j = 0; j < sales[i].length; j++) {
+
+                totalSales = totalSales + sales[i][j];//ipologizei tis poliseis gia to kathe katastima
+            }
+            System.out.println("Katastima no:" + i); //emfanizei oti ipologise
+            System.out.println("Total income is " + totalSales);
+            totalSales = 0;//Prepei na midenisoume gia na ipologisoume tis poliseis toy epomenou katastimatos
+        }
+    }
+    public void getProductSales() {//kenh dimosia methodos getProductSales
+        for (int col = 0; col < sales[0].length; col++) {
+            double colSum = 0;//sinolikes polisis proionton stilis
+
+            for (int row = 0; row < sales.length; row++) {//sinolikes polisis proionton grammon
+                colSum = colSum + sales[row][col];
+            }
+            System.out.println("Proion no: " + col);//To emfanizei stin othoni
+            System.out.println("Total income is: " + colSum);//sinolo poliseon ana proion
+            System.out.println("Avarage income ana katastima is " + colSum / 3);//m.o. poliseon ana katastima
+        }
+    }
+    public void getSupermarketSales() {//keni dimosia methodos getSupermarketSales
+        double totalSales = 0;//Sinolo poliseon katastomaton
+        double totalS = 0;//athrisma poliseon alisidas s
+        for (int i = 0; i < sales.length; i++) {
+            for (int j = 0; j < sales[i].length; j++) {
+                totalSales = totalSales + sales[i][j];//vrisko athrisma poliseon
+            }
+            System.out.println("Katastima no:" + i);
+            System.out.println("Avarage income is " + totalSales / 4);
+            totalS = totalS + totalSales;
+            totalSales = 0;
+        }
+        System.out.println("Athrisma poliseon alisidas is " + totalS);
+    }
+
+}

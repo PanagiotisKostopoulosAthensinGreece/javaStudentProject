@@ -1,0 +1,19 @@
+ public class MainProgramSupermarket {
+    public static void main(String[] args) {
+        double[][] sales = {
+                {12502.5, 2506.75, 8088.33, 1289.55},
+                {10085.65, 1505.85, 5800.65, 1184.55},
+                {19258, 1158.57, 9871.22, 1289.78}};//oi times dinontai apo ekfonisi
+        SupermarketSales s1 = new SupermarketSales(sales);
+        s1. getStoreSales();//ipologismos athrismatos poliseon  kai to emfanizei
+        System.out.println("");//alazi grami
+        s1.getProductSales();//ipologizei to athrisma poliseon gia kathe proion kai mo poliseon ana katastma
+        System.out.println("");
+        s1.getSupermarketSales();//ipologismos athrismatos poliseon tis alisidas kai mo poliseon kathe katastimatos kai to emfanizi
+    }
+
+}
+
+
+
+

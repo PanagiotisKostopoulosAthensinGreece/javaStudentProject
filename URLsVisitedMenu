@@ -1,0 +1,81 @@
+ import java.io.File;
+import java.util.Scanner;
+public class URLsVisitedMenu {
+    public static void main(String[] args) {
+
+        //To programa xrisimopoii vroxous epanalipsis
+        //το do… while) μέχρις ότου ο χρήστης δώσει το 3 που το τερματίζει
+        int selection;//O xristis epilegei akeraia timi
+        do {
+            selection = new URLsVisitedMenu().menu();//dimiourgeia antikeimenou
+            if (selection == 1) { //An i epilogi tou xristi einai to 1
+                System.out.println("Which filename do you want to analyze?");//Tiponi to minima poio arxeio thelei na kanei analisi
+                Scanner input1 = new Scanner(System.in);//Kataxoroume sto scanner
+                String input2 = input1.next();//se ena string tin epilogi toy xristi
+                File input3 = new File(input2);//Dimiourgia arxeiou me onoma pou edose o xeiristis, input2
+                new URLsVisitedMenu().fileAnalyzer(input3 );//Kalo methodo fileAnalyzer gia na ftiakso neo antikeimeno
+            }
+            if (selection== 2) {//An i epilogi tou xristi einai to 2
+                //Diavase apo to pliktrologio  το μονοπάτι στο οποίο περιέχονται
+                System.out.println("Which directory's files do you want to analyze?");// ektipose poio directory' na kanei analisi
+                Scanner input4 = new Scanner(System.in);//Dimiourgo antikeimeno Scanner
+                String input5 = input4.next();
+
+                //My Directory
+                //C:\\Users\\user\\Documents\\NetBeansProjects\\PLS50_2h_2020-21\\sources
+                File file1  = new File(input5); //Dimiourgo antikeimeno
+                if (file1 .isDirectory()) { //Elegxos entopismou gia monopati
+                    //epeita tha diavazei ta arxia
+                    //ta onomata ton arxeion  se pinaka simvolosiron me onoma
+                    File[] files = file1 .listFiles();//kataxorisi arxeion  directrory
+
+                    //Gia kathe ena apo ta stoixeia tou pinaka files xrisimopoio tin methodo fileAnalyzer
+                    for (int i = 0; i < files.length; i++) {
+                        new URLsVisitedMenu().fileAnalyzer(files[i]);//Dimiourgeia antikeimenou fileAnalizer
+                    }
+                } else {
+                    System.out.println("Directory not exists !!!"); //Allios vgazei to minima entos parenthesis
+                }
+            }
+        } while (selection != 3);//Oso i epilogi tou xristi einai diaforetiki tou 3 sinexizei ton elegxo allios termatizi
+//
+    }
+    //URLsVisitedMenu και η οποία θα διαβάζει και θα επιστρέφει την επιλογή του χρήστη
+    public int menu() {//methodos menu emfanizei to menu diavazei kai epistrefei tin epilogi tou xristi
+        int selection = 0;//o xristis epilegei tin timi 0 ektos apo tis times :1,2,3
+        //To programa xrisimopoii vroxous epanalipsis
+        do {
+            System.out.println("1. Input the name of the file containing URLs you want to analyze");//emfanizei to minima()
+            System.out.println("2. Input the path of the directory containing the files you to want to analyze for URLs");
+            //emfanizei to minima()
+            System.out.println("3. Exit");//emfanizei to minima()
+            System.out.println("Which is your choice?");//emfanizei to minima()
+            Scanner input = new Scanner(System.in);//Orizo antikeimeno Scanner
+
+            //p elegxos gineta meso xirismou eksereseon
+            try {
+                selection = input.nextInt();//pairnei na parei akeraio apo ton xristi
+            } catch (Exception e) { // allios tha parei tin ekseresi
+                System.out.println("Please choose 1 or 2 or 3 !!!!");//kai tha tiposi enimerotiko minima na epileji 1,2 or 3
+            }
+
+        } while ( selection < 1 ||  selection> 3); //vroxos epanalipsis an o xristis dosei aritmo ektos ton:1,2,3
+        return  selection;// tha epanalamvanetai sinexos kai tha epistrefei tin epilogi tou xristi
+    }
+    public void fileAnalyzer(File file) {// keni dimosia methodos fileAnalyzer
+        System.out.println("The file analyzed is:");
+        System.out.println(file.getName());
+        System.out.println("");
+        URLsVisited url = new URLsVisited(file);//Dimiourgia antikeimenou
+        if (file.length() > 0) {
+            System.out.println("The Web sites visited are:");
+            url.printAll();
+            System.out.println("");
+            url.removeDuplicates();
+            System.out.println("The unique Web sites visited are:");
+            url.printAll();
+            System.out.println("");
+        }
+    }
+
+}

@@ -1,0 +1,31 @@
+import java.io.File;
+import java.util.Scanner;
+public class URLsVisitedApp {
+    public static void main(String[] args) {
+        // o xristis tha valei to onoma tou arxeiou kai ti diefthinsis
+        // ektos apo tin askisi exoume kai to arxio  mySources.src
+        System.out.println("Which filename do you want to analyze?");//tipono minima ston xristi poio arxeio thelei na analisei
+        Scanner input = new Scanner(System.in);// Dilonoume sscaner
+        String input2 = input.next(); // sto string kataxoro tin timi pou tha mou dosei o xeiristis
+        File input3 = new File(input2); //Δdimiourgia antikimenou file me orisma to proigoumeno string
+        new URLsVisitedApp().fileAnalyzer(input3); // kalo methodo file Analyzer kai orizo to arxeio pou epelekse o xristis
+    // to neo antikeimeno einai to URLsVisitedApp kai xrisimopoio tin methodo me orisma to input3
+    }
+    public void fileAnalyzer(File input3) { //dimosia keni methodos me onoma fileAnalyzer kai orisma to arxeio File input3
+
+        System.out.println("The file analyzed is:");// tipono os minima to arxeio pou tha analisoume
+        System.out.println(input3.getName());// xrismimopoio tin methodo getName gia na aproume to onoma tou arxeiou
+        System.out.println("");//Afinoume mia keni grammi
+        URLsVisited input4 = new URLsVisited(input3); // Dimiourgeia antikeimenou URLsVisited  me orisma to input3
+        if (input3.length() > 0) { //Elexos an to megethos tou einai pano apo to 0 mono etsi arxeio exei pliroforia
+            System.out.println("The Web sites visited are:");//Emfanizei os minima ta sait pou episteftikate
+            input4.printAll();// Me tin methodo stigmiotipou print all tha tiposei
+            System.out.println("");// Afinoume mia grammi keni
+            input4.removeDuplicates();//Kaloume methodo stigmiotipou removeDuplicates pou vriskei tis monodiastates diefthinseis
+            //kai tis taksinomei
+            System.out.println("The unique Web sites visited are:");// emfanizei to minima pou einai stin parenthesi
+            input4.printAll();  // me tin printall tiponei xoris ta diplotipa
+        }
+    }
+
+}

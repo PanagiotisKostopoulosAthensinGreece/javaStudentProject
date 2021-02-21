@@ -1,0 +1,68 @@
+import java.io.BufferedReader ;
+import java.io.FileNotFoundException ;
+import java.io.FileReader ;
+import java.io.IOException ;
+import  java.util.Arrays;
+import  java.util.Scanner;
+
+
+public class Solver {
+
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        System.out.println("Select and solve the sudoku puzzle");
+        Scanner input = new Scanner(System.in);//Dimioyrgia antikeimenou  Scanner
+        String string1 = input.next();
+        BufferedReader bfr = new BufferedReader(new FileReader(string1)); //Dimiourgia antikeimenou tipou File
+        int table[][] = new int[9][9];//Entaso to arxeio se pinaka 9*9
+        for (int i = 0; i < 9; i++) {
+            String line = bfr.readLine();
+            String numbers[] = line.split(" ");
+            for (int j = 0; j < 9; j++) {
+                table[i][j] = Integer.parseInt(numbers[j]);
+            }
+        }
+
+        System.out.println("Select and use the data structure ");//Epilogi tis Data structure
+        System.out.println("1: Stack implementation with ArrayList \n"
+                + "2:Queue implemented with ArrayList class \n"
+                + "3:Stack implementation with Stack class \n"
+                + "4:Queue implemented with LinkedList class");
+        Scanner input2 = new Scanner(System.in);
+        int selection = input2.nextInt();
+        Sudoku sdk = new Sudoku(table);
+        System.out.println(" ");
+        System.out.println("*** Sudoku" + string1 + "***");
+        sdk.display();
+
+        if (selection == 1) { //Enarksi diadikasias epilisis
+            if (sdk.solve1()) {
+                System.out.println("*** Sudoku" + string1 + "1:Stack implementation with ArrayList");
+                sdk.display();
+            } else {
+                System.out.println("ERROR: It is not solved ");
+            }
+        } else if (selection == 2) {
+            if (sdk.solve2()) {
+                System.out.println("*** Sudoku" + string1 + "2:Queue implemented with ArrayList class");
+                sdk.display();
+            } else {
+                System.out.println("ERROR: It is not solved ");
+            }
+        } else if (selection == 3) {
+            if (sdk.solve3()) {
+                System.out.println("*** Sudoku" + string1 + "3:Stack implementation with Stack class");
+                sdk.display();
+            } else {
+                System.out.println("ERROR: It is not solved ");
+            }
+        } else if (selection == 4) {
+            if (sdk.solve4()) {
+                System.out.println("*** Sudoku" + string1 + "4:Queue implemented with LinkedList class");
+                sdk.display();
+            } else {
+                System.out.println("ERROR: It is not solved ");
+            }
+        }
+
+    }
+}

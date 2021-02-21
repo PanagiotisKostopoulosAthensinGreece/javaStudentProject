@@ -1,0 +1,194 @@
+import java.util.*;
+
+
+public class Sudoku {
+    public int board[][]; // Dimiourgia pinaka 2 diastaseon me akeraies times tipou 9*9
+
+    public Sudoku(int board[][]) { // Dimiourgia kataskevasti
+        this.board = board;
+    }
+
+    private boolean inSequence(int sequence, int numeral) {//proveno se elexo an enas arithmos tipou numeral vrisketai se grami tipou sequence
+        for (int i = 0; i < 9; i++) {
+            if (board[sequence][i] == numeral) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inCol(int col, int numeral) { //proveno se elexo an enas arithmos tipou numeral vrisketai se stili tipou row
+        for (int i = 0; i < 9; i++) {
+            if (board[i][col] == numeral) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inBox(int sequence, int col, int numeral) { //proveno se elexo an enas arithmos tipou numeral vrisketai sto 3*3
+        int s = sequence - sequence % 3;
+        int c = col - col % 3;
+        for (int i = s; i < s + 3; i++) {
+            for (int j = c; j < c + 3; j++) {
+                if (board[i][j] == numeral) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    //Proceno se elexo meso methodou oste na diapistoso an pithanos arithmos tipou numeral
+    // exei topothetithi se ftami tipou sequence kai stili tipoy col kai sto 3 epi 3
+
+    private boolean inAll(int sequence, int col, int numeral) {
+        return !inSequence(sequence, numeral) && inCol(col, numeral);
+    }
+
+    // Dimiourgia methodou me skopo na lithi to sudoku
+    // Epilogi xrisis tou algorithmou opisthodromisis
+    //  Opou xrisimopoiei ton algoruthmo anazitisis kata vathos
+    // 1: Stack implementation with ArrayList
+    public boolean solve1() {
+        for (int sequence = 0; sequence < 9; sequence++) {
+            for (int col = 0; col < 9; col++) { // Anazito keli iso me 0, opou 0 to keno keli
+                if (board[sequence][col] == 0) {
+                    // epilego sostous pithanos arithmous apo to 1 os to 9
+                    ArrayList<Integer> list = addList();
+                    while (!list.isEmpty()) {
+                        //Kano afairesi apo to teleftaio tis listas
+                        if (inAll(sequence, col, list.get(list.size() - 1))) {
+                            // Orthos o arithmos epeita apo elexo an vrisetai se grami stili kai 3*3
+                            board[sequence][col] = list.get(list.size() - 1);
+                            System.out.println("Change in the cell" + (sequence + 1) + "x" + (col + 1));
+                            display();
+                            if (solve1()) { //Arxizo ton algorithmo opistodromisis anadromika
+                                return true;
+                            } else { // An den entopiso lisi topotheto to 0 sto keli kai proxoro
+                                board[sequence][col] = 0;
+                            }
+                        }
+                        list.remove(list.size() - 1);
+                    }
+                    return false; // Epistrefo lathos an den entopisei arithmo
+                }
+            }
+        }
+        return true; // Lithike to sudoku
+    }
+
+    //"2:Queue implemented with ArrayList class
+    public boolean solve2() {
+        for (int sequence = 0; sequence < 9; sequence++) {
+            for (int col = 0; col < 9; col++) { // Anazito keli iso me 0, opou 0 to keno keli
+                if (board[sequence][col] == 0) { // epilego sostous pithanos arithmous apo to 1 os to 9
+                    ArrayList<Integer> list = addList();
+                    while (!list.isEmpty()) { //Kano afairesi apo to proto sti lista
+                        if (inAll(sequence, col, list.get(0))) {
+                            //Orthos o arithmos epeita apo elexo an vrisetai se grami stili kai 3*3 ara ton topotheto
+                            board[sequence][col] = list.get(0);
+                            System.out.println("Change in cell" + (sequence + 1) + "x" + (col + 1));
+                            display();
+                            if (solve1()) { //Arxizo ton algorithmo opistodromisis anadromika
+                                return true;
+                            } else {   // An den entopiso lisi topotheto to 0 sto keli kai proxoro
+                                board[sequence][col] = 0;
+                            }
+                        }
+                        list.remove(0);
+                    }
+                    return false; // Epistrefo lathos an den entopisei arithmo
+                }
+            }
+
+        }
+        return true;// Lithike to sudoku
+    }
+
+    //3: "3:Stack implementation with Stack class
+    public boolean solve3() {
+        for (int sequence = 0; sequence < 9; sequence++) {
+            for (int col = 0; col < 9; col++) { // Anazito keli iso me 0, opou 0 to keno keli
+                if (board[sequence][col] == 0) {
+                    Stack<Integer> stack = addStack(); //Elexos pithanon arithmon apo 1 os 9
+                    while (!stack.isEmpty()) {
+                        if (inAll(sequence, col, stack.lastElement())) {//Orthos o arithmos afou egine elexos an vrisketai
+                            //se grami stili 3*3 ara ton kataxorisame
+                            board[sequence][col] = stack.lastElement();
+                            System.out.println("Change in the cell" + (sequence + 1) + "x" + (col + 1));
+                            display();
+                            if (solve1()) { //Arxizo ton algorithmo opistodromisis anadromika
+                                return true;
+                            } else {  // An den entopiso lisi topotheto to 0 sto keli kai proxoro
+                                board[sequence][col] = 0;
+                            }
+                        }
+                        stack.pop();
+                    }
+                    return false;  // Epistrefo lathos an den entopisei arithmo
+                }
+            }
+        }
+        return true; // Lithike to sudoku
+    }
+    //4:Queue implemented with LinkedList class
+public boolean solve4(){
+    for (int sequence = 0; sequence < 9; sequence++) {
+        for (int col = 0; col < 9; col++) { // Anazito keli iso me 0, opou 0 to keno keli
+            if (board[sequence][col] == 0) {
+               Queue<Integer> queue= addQueue();                               //Elexos pithanon arithmon apo 1 os 9
+                  while (! queue.isEmpty()){
+                      if (inAll(sequence,col,queue.peek())) {  //Orthos o arithmos afou egine elexos an vrisketai
+                         board[sequence][col]=queue.peek();                                      //se grami stili 3*3 ara ton kataxorisame
+                         System.out.println("Change in a cell"+(sequence+1)+"x"+(col+1));
+                           display();
+                           if (solve1())   { //Arxizo ton algorithmo opistodromisis anadromika
+                               return true;
+                           }
+                            else {  // An den entopiso lisi topotheto to 0 sto keli kai proxoro
+                                board[sequence][col]=0;
+                           }
+                           }
+                             queue.remove();
+                  }
+                     return false; // Epistrefo lathos an den entopisei arithmo
+            }
+        }
+    }
+          return true; // Lithike to sudoku
+}
+public void display() { // Dimiourgia methodou me skopo tin ektiposi tou pinaka sudoku
+         for (int i=0; i<9;i++) {
+             for (int j=0;j<9;j++){
+                 System.out.print(" "+board[i][j]);
+             }
+                 System.out.println();
+         }
+                 System.out.println();
+}
+                 //Prostheto tous arithmous apo 1 os 9 stin ArrayList
+
+    public ArrayList<Integer> addList() {
+        ArrayList<Integer> list= new ArrayList<>();
+        for (int i=1; i<=9;i++) {
+            list.add(i);
+        }
+            return list;
+    }
+    //Prostheto tous arithmous apo 1 os 9 stin Stack
+    public Stack<Integer> addStack(){
+        Stack<Integer> stack= new Stack<Integer>();
+        for (int i=1; i<=9;i++) {
+            stack.push(i);
+        }
+            return stack;
+    }
+    //Prostheto tous arithmous apo 1 os 9 stin Queue
+    public Queue<Integer> addQueue(){
+        Queue<Integer> queue= new LinkedList<Integer>();
+        for (int i=1; i<=9;i++) {
+            queue.add(i);
+        }
+          return queue;
+    }
+}
